@@ -1,1 +1,20 @@
-# dotnet-personal-finances
+# Personal Finances
+This is a proof of concept
+
+## Tech stack
+- .NET Core 5
+
+## Pre-requisites
+- [.NET Core 5 SDK](https://dotnet.microsoft.com/download/dotnet/5.0)
+
+### Install via chocolatey
+```
+$ choco install dotnet-5.0-sdk
+```
+
+## Project structure
+
+## Running
+
+
+## Tests
