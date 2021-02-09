@@ -25,6 +25,10 @@ namespace Accounts.API.Controllers
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
+        /// <summary>
+        /// Gets a summary of all accounts for the current user.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AccountSummaryResponse>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Get()
