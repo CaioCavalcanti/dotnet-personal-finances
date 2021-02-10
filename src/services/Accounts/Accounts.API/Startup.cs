@@ -1,12 +1,13 @@
 using System;
-using System.IO;
-using System.Reflection;
+using Accounts.API.Infrastructure.AutofacModules;
+using Accounts.API.Infrastructure.Swagger;
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 
 namespace Accounts.API
 {
@@ -19,54 +20,42 @@ namespace Accounts.API
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public virtual IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            RegisterServices(services);
 
-            services.AddControllers();
-            // TODO: move to it's own file
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo
-                {
-                    Title = "Accounts API",
-                    Version = "v1",
-                    Description = "Manage user personal finance accounts.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Caio Cavalcanti",
-                        Email = "caiofabiomc@gmail.com",
-                        Url = new Uri("https://github.com/CaioCavalcanti")
-                    },
-                });
+            var container = new ContainerBuilder();
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
+            container.Populate(services);
+            container.RegisterAutofacModules();
+
+            return new AutofacServiceProvider(container.Build());
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Accounts API v1"));
+                app.UseDeveloperExceptionPage()
+                    .UseSwagger()
+                    .UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Accounts API v1"));
             }
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+        }
 
-            app.UseRouting();
+        private void RegisterServices(IServiceCollection services)
+        {
+            services.AddControllers();
 
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            services
+                .AddCustomSwagger();
         }
     }
 }

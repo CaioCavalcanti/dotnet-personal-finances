@@ -5,10 +5,11 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
 {
     public class Account : Entity, IAggregateRoot
     {
-        public Account(string name, AccountType type, double initialBalance)
+        public Account(string name, AccountType type, string currency, double initialBalance)
         {
             Name = name;
             Type = type;
+            Currency = currency;
             InitialBalance = initialBalance;
             Balance = InitialBalance;
             CreatedAt = DateTime.UtcNow;
@@ -16,6 +17,7 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
 
         public string Name { get; }
         public AccountType Type { get; }
+        public string Currency { get; }
         public double InitialBalance { get; }
         public DateTime CreatedAt { get; }
         public double Balance { get; private set; }
