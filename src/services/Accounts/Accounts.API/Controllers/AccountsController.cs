@@ -31,6 +31,8 @@ namespace Accounts.API.Controllers
         /// <returns></returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AccountSummaryResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+        // TODO: add global  response on swagger, so it doesn't need to be repeated
         public async Task<IActionResult> Get()
         {
             IEnumerable<AccountSummaryResponse> accounts = await _accountQueries.GetAccountsAsync();

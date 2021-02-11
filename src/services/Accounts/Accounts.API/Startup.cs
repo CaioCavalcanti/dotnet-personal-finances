@@ -1,5 +1,6 @@
 using System;
 using Accounts.API.Infrastructure.AutofacModules;
+using Accounts.API.Infrastructure.Filters;
 using Accounts.API.Infrastructure.Swagger;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
@@ -52,7 +53,9 @@ namespace Accounts.API
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options => {
+                options.Filters.Add<HttpGlobalExceptionFilter>();
+            });
 
             services
                 .AddCustomSwagger();
