@@ -16,5 +16,9 @@ $ choco install dotnet-5.0-sdk
 
 ## Running
 
+```bash
+cd .\src
+docker-compose up
+```
 
 ## Tests

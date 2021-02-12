@@ -2,6 +2,7 @@ using System;
 using Accounts.API.Infrastructure.AutofacModules;
 using Accounts.API.Infrastructure.Filters;
 using Accounts.API.Infrastructure.Swagger;
+using Accounts.Infrastructure.Database;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
@@ -58,7 +59,8 @@ namespace Accounts.API
             });
 
             services
-                .AddCustomSwagger();
+                .AddCustomSwagger()
+                .AddAccountsDbContext(Configuration);
         }
     }
 }

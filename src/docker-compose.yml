@@ -1,0 +1,14 @@
+version: '3.4'
+
+services: 
+  accounts-database:
+    image: 'postgres'
+    ports: 
+      - 5432:5432
+    env_file: 
+      - accounts-database.env
+    volumes:
+      - accounts-database-data:/var/lib/postgresql/data/
+
+volumes:
+  accounts-database-data:
