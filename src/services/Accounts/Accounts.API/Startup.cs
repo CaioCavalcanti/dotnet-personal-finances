@@ -42,6 +42,10 @@ namespace Accounts.API
                     .UseSwagger()
                     .UseSwaggerUI(options => options.SwaggerEndpoint("/swagger/v1/swagger.json", "Accounts API v1"));
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection()
                 .UseRouting()
@@ -54,7 +58,8 @@ namespace Accounts.API
 
         private void RegisterServices(IServiceCollection services)
         {
-            services.AddControllers(options => {
+            services.AddControllers(options =>
+            {
                 options.Filters.Add<HttpGlobalExceptionFilter>();
             });
 

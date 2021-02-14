@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
@@ -10,6 +11,11 @@ namespace Accounts.Infrastructure.Repositories
     public class AccountRepository : IAccountRepository
     {
         private readonly AccountsDbContext _context;
+
+        public AccountRepository(AccountsDbContext context)
+        {
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+        }
 
         public IUnitOfWork UnitOfWork => _context;
 

@@ -1,5 +1,6 @@
-using System.Collections.Immutable;
 using Accounts.API.Application.Queries;
+using Accounts.Domain.AggregatesModel.AccountAggregate;
+using Accounts.Infrastructure.Repositories;
 using Autofac;
 
 namespace Accounts.API.Infrastructure.AutofacModules
@@ -10,6 +11,10 @@ namespace Accounts.API.Infrastructure.AutofacModules
         {
             builder.RegisterType<AccountQueries>()
                 .As<IAccountQueries>()
+                .InstancePerLifetimeScope();
+
+            builder.RegisterType<AccountRepository>()
+                .As<IAccountRepository>()
                 .InstancePerLifetimeScope();
         }
     }

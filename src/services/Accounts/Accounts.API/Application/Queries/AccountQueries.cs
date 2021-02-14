@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.API.Application.Responses;
@@ -10,6 +11,12 @@ namespace Accounts.API.Application.Queries
     {
         private readonly IAccountRepository _repository;
         private readonly IMapper _mapper;
+
+        public AccountQueries(IAccountRepository repository, IMapper mapper)
+        {
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+        }
 
         public async Task<AccountResponse> GetAccountAsync(int id)
         {
