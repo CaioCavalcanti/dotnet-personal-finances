@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.API.Application.Queries;
 using Accounts.API.Application.Responses;
+using Accounts.Domain.AggregatesModel.AccountAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ namespace Accounts.API.Controllers
 {
     [Route("api/v1/accounts")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class AccountsController : BaseApiController
     {
         private readonly IMediator _mediator;
         private readonly IAccountQueries _accountQueries;
@@ -28,7 +29,7 @@ namespace Accounts.API.Controllers
         /// <summary>
         /// Gets a summary of all accounts for the current user.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>List of accounts summary.</returns>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<AccountSummaryResponse>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
@@ -39,12 +40,25 @@ namespace Accounts.API.Controllers
             return Ok(accounts);
         }
 
-        // GET: api/Accounts/5
+        /// <summary>
+        /// Get the details for an account with a given id.
+        /// </summary>
+        /// <param name="id">The account unique identifier.</param>
+        /// <returns>Details of account.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(NotFoundResponse<Account>), StatusCodes.Status404NotFound)]0OK)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
             AccountResponse account = await _accountQueries.GetAccountAsync(id);
+
+            // TODO: should this be an exception handled by the filter?
+            if (account is null)
+            {
+                return NotFound<Account>();
+            }
+
             return Ok(account);
         }
 

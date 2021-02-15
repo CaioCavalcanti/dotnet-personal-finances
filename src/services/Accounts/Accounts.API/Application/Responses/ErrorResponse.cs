@@ -10,8 +10,8 @@ namespace Accounts.API.Application.Responses
             Message = message;
         }
 
-        public string CorrelationId { get; }
         public string Message { get; }
+        public string CorrelationId { get; }
         public string Exception { get; private set; }
         public string InnerException { get; private set; }
         public string StackTrace { get; private set; }

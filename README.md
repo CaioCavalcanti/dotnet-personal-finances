@@ -22,3 +22,21 @@ docker-compose up
 ```
 
 ## Tests
+
+
+## TODO
+
+- General
+  - [ ] Update readme
+  - [ ] Pipelines
+
+- Accounts
+  - [ ] CRUD
+  - [ ] Authentication
+  - [ ] App insights
+  - [ ] Key Vault
+  - [ ] Infra as code
+
+- Budgeting
+- Investing
+- Documents
