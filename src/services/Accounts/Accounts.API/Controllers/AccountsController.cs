@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Accounts.API.Application.Queries;
+using Accounts.API.Application.Requests;
 using Accounts.API.Application.Responses;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using MediatR;
@@ -47,7 +48,7 @@ namespace Accounts.API.Controllers
         /// <returns>Details of account.</returns>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(NotFoundResponse<Account>), StatusCodes.Status404NotFound)]0OK)]
+        [ProducesResponseType(typeof(NotFoundResponse<Account>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Get(int id)
         {
@@ -62,10 +63,18 @@ namespace Accounts.API.Controllers
             return Ok(account);
         }
 
-        // POST: api/Accounts
+        /// <summary>
+        /// Creates an account.
+        /// </summary>
+        /// <param name="createAccountRequest">The created account.</param>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Post([FromBody] CreateAccountRequest createAccountRequest)
         {
+            AccountResponse account = await _mediator.Send(createAccountRequest);
+            return CreatedAtAction(nameof(Get), account);
         }
 
         // PUT: api/Accounts/5

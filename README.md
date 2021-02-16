@@ -32,6 +32,7 @@ docker-compose up
 
 - Accounts
   - [ ] CRUD
+  - [ ] Caching
   - [ ] Authentication
   - [ ] App insights
   - [ ] Key Vault

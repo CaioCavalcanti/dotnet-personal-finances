@@ -1,8 +1,10 @@
 using System;
 using Accounts.API.Application.Responses;
 using Accounts.API.Infrastructure.ActionResults;
+using Accounts.Domain.Exceptions;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -25,7 +27,15 @@ namespace Accounts.API.Infrastructure.Filters
             string correlationId = Guid.NewGuid().ToString();
 
             LogError(context, correlationId);
-            SetInternalServerErrorResponse(context, correlationId);
+
+            if (context.Exception.GetType() == typeof(AccountsDomainException))
+            {
+                SetBadRequestResponse(context);
+            }
+            else
+            {
+                SetInternalServerErrorResponse(context, correlationId);
+            }
 
             context.ExceptionHandled = true;
         }
@@ -38,6 +48,28 @@ namespace Accounts.API.Infrastructure.Filters
                 context.Exception.Message,
                 correlationId
             );
+        }
+
+        private void SetBadRequestResponse(ExceptionContext context)
+        {
+            ValidationProblemDetails response = CreateValidationProblemDetails(context);
+
+            context.Result = new BadRequestObjectResult(response);
+            context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+        }
+
+        private ValidationProblemDetails CreateValidationProblemDetails(ExceptionContext context)
+        {
+            var problemDetails = new ValidationProblemDetails
+            {
+                Instance = context.HttpContext.Request.Path,
+                Status = StatusCodes.Status400BadRequest
+            };
+
+            // TODO: write down the errors from inner exception
+            problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
+
+            return problemDetails;
         }
 
         private void SetInternalServerErrorResponse(ExceptionContext context, string correlationId)
