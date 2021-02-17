@@ -29,6 +29,7 @@ docker-compose up
 - General
   - [ ] Update readme
   - [ ] Pipelines
+  - [ ] Remove server header
 
 - Accounts
   - [ ] CRUD

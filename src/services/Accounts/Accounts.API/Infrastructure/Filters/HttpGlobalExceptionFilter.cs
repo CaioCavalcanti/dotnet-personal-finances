@@ -1,13 +1,17 @@
+using System.Linq;
 using System;
 using Accounts.API.Application.Responses;
 using Accounts.API.Infrastructure.ActionResults;
 using Accounts.Domain.Exceptions;
+using FluentValidation;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using FluentValidation.Results;
+using System.Collections.Generic;
 
 namespace Accounts.API.Infrastructure.Filters
 {
@@ -60,16 +64,21 @@ namespace Accounts.API.Infrastructure.Filters
 
         private ValidationProblemDetails CreateValidationProblemDetails(ExceptionContext context)
         {
-            var problemDetails = new ValidationProblemDetails
-            {
-                Instance = context.HttpContext.Request.Path,
-                Status = StatusCodes.Status400BadRequest
-            };
+            var problemDetails = new ValidationProblemDetails();
 
-            // TODO: write down the errors from inner exception
-            problemDetails.Errors.Add("DomainValidations", new string[] { context.Exception.Message.ToString() });
+            problemDetails.Errors.Add("domainValidation", GetValidationErrors(context));
 
             return problemDetails;
+        }
+
+        private string[] GetValidationErrors(ExceptionContext context)
+        {
+            if (context.Exception.InnerException is ValidationException validationException)
+            {
+                return validationException.Errors.Select(e => e.ErrorMessage).ToArray();
+            }
+
+            return new string[] { };
         }
 
         private void SetInternalServerErrorResponse(ExceptionContext context, string correlationId)
