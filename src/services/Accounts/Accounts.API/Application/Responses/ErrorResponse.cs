@@ -12,6 +12,8 @@ namespace Accounts.API.Application.Responses
 
         public string Message { get; }
         public string CorrelationId { get; }
+
+        // TODO: hide these fields, maybe return the exception details on the message?
         public string Exception { get; private set; }
         public string InnerException { get; private set; }
         public string StackTrace { get; private set; }

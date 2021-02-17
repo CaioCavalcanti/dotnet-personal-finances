@@ -1,3 +1,4 @@
+using Accounts.API.Infrastructure.DatabaseSeed;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
@@ -8,7 +9,9 @@ namespace Accounts.API
     {
         public static void Main(string[] args)
         {
-            CreateWebHost(args).Run();
+            CreateWebHost(args)
+                .MigrateAccountsDbContext()
+                .Run();
         }
 
         public static IWebHost CreateWebHost(string[] args) =>

@@ -14,6 +14,7 @@ namespace Accounts.Infrastructure.Database
         }
 
         public DbSet<Account> Accounts { get; set; }
+        public DbSet<AccountType> AccountTypes { get; set; }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
@@ -25,6 +26,7 @@ namespace Accounts.Infrastructure.Database
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new AccountTypeEntityTypeConfiguration());
         }
     }
 }

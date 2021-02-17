@@ -5,6 +5,8 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
 {
     public class Account : Entity, IAggregateRoot
     {
+        private int _accountTypeId;
+
         protected Account() { }
 
         public Account(string name, AccountType type, string currency, double initialBalance)

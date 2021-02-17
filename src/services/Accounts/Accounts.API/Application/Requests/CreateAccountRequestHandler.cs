@@ -23,7 +23,7 @@ namespace Accounts.API.Application.Requests
         {
             var account = new Account(
                 request.Name,
-                request.Type,
+                AccountType.FromDisplayName<AccountType>(request.Type),
                 request.Currency,
                 request.InitialBalance
             );
