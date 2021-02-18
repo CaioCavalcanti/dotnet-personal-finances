@@ -13,7 +13,7 @@ namespace Accounts.API.Infrastructure.DatabaseSeed
 {
     public static class WebHostExtensions
     {
-        public static IWebHost MigrateAccountsDbContext(this IWebHost host)
+        public static IWebHost MigrateAndSeedAccountsDbContext(this IWebHost host)
         {
             host.MigrateDbContext<AccountsDbContext>((dbContext, services) =>
             {

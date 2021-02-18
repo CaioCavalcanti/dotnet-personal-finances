@@ -61,19 +61,8 @@ namespace Accounts.API.Infrastructure.DatabaseSeed
         {
             if (!_dbContext.AccountTypes.Any())
             {
-                _dbContext.AccountTypes.AddRange(GetPredefinedAccountTypes());
+                _dbContext.AccountTypes.AddRange(AccountType.GetPredefinedAccountTypes());
             }
-        }
-
-        private IEnumerable<AccountType> GetPredefinedAccountTypes()
-        {
-            return new AccountType[] {
-                AccountType.Cash,
-                AccountType.Savings,
-                AccountType.Checking,
-                AccountType.Retirement,
-                AccountType.Investments,
-            };
         }
     }
 }

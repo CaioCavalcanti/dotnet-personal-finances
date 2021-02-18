@@ -10,7 +10,7 @@ namespace Accounts.API
         public static void Main(string[] args)
         {
             CreateWebHost(args)
-                .MigrateAccountsDbContext()
+                .MigrateAndSeedAccountsDbContext()
                 .Run();
         }
 
