@@ -8,7 +8,7 @@ namespace Accounts.API.Infrastructure.AutofacModules
         public static ContainerBuilder RegisterAutofacModules(this ContainerBuilder container)
         {
             container
-                .RegisterAutoMapper()
+                .RegisterAutoMapper(typeof(Program).Assembly)
                 .RegisterModule(new MediatorModule())
                 .RegisterModule(new ApplicationModule());
 

@@ -9,10 +9,10 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
 
         protected Account() { }
 
-        public Account(string name, AccountType type, string currency, double initialBalance)
+        public Account(string name, int typeId, string currency, double initialBalance)
         {
             Name = name;
-            Type = type;
+            _accountTypeId = typeId;
             Currency = currency;
             InitialBalance = initialBalance;
             Balance = InitialBalance;
@@ -20,7 +20,8 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
         }
 
         public string Name { get; }
-        public AccountType Type { get; }
+        public virtual AccountType Type { get; }
+        // TODO: convert into enumeration
         public string Currency { get; }
         public double InitialBalance { get; }
         public DateTime CreatedAt { get; }

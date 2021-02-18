@@ -7,8 +7,11 @@ namespace Accounts.API.Application.Responses
     {
         public AccountMappingProfile()
         {
-            CreateMap<Account, AccountSummaryResponse>();
-            CreateMap<Account, AccountResponse>();
+            CreateMap<Account, AccountSummaryResponse>()
+                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => src.Type.Name));
+
+            CreateMap<Account, AccountResponse>()
+                .ForMember(dest => dest.Type, opts => opts.MapFrom(src => src.Type.Name));
         }
     }
 }
