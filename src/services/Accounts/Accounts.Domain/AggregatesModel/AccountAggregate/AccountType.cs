@@ -14,14 +14,5 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
         public AccountType(int id, string name) : base(id, name)
         {
         }
-
-        public static IEnumerable<AccountType> GetPredefinedAccountTypes() => new AccountType[]
-        {
-            AccountType.Cash,
-            AccountType.Savings,
-            AccountType.Checking,
-            AccountType.Retirement,
-            AccountType.Investments,
-        };
     }
 }

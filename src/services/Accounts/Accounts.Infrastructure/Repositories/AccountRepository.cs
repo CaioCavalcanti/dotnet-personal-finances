@@ -31,7 +31,9 @@ namespace Accounts.Infrastructure.Repositories
 
         public async Task<IEnumerable<Account>> GetAsync()
         {
-            return await _context.Accounts.ToListAsync();
+            return await _context.Accounts
+                .Include(a => a.Type)
+                .ToListAsync();
         }
 
         public void Update(Account account)

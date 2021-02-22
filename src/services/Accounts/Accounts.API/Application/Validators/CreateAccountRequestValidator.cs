@@ -17,7 +17,7 @@ namespace Accounts.API.Application.Validators
 
         private bool BeAValidAccountType(string accountType)
         {
-            return AccountType.GetPredefinedAccountTypes()
+            return AccountType.GetAll<AccountType>()
                 .Select(at => at.Name)
                 .Contains(accountType);
         }

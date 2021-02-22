@@ -7,8 +7,9 @@ namespace Accounts.API.Application.Responses
         public int Id { get; init; }
         public string Name { get; init; }
         public string Type { get; init; }
+        public string Currency { get; init; }
         public double InitialBalance { get; init; }
-        public DateTime CreatedAt { get; init; }
         public double Balance { get; init; }
+        public DateTime Created { get; init; }
     }
 }

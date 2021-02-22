@@ -16,7 +16,7 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
             Currency = currency;
             InitialBalance = initialBalance;
             Balance = InitialBalance;
-            CreatedAt = DateTime.UtcNow;
+            Created = DateTime.UtcNow;
         }
 
         public string Name { get; }
@@ -24,7 +24,7 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
         // TODO: convert into enumeration
         public string Currency { get; }
         public double InitialBalance { get; }
-        public DateTime CreatedAt { get; }
         public double Balance { get; private set; }
+        public DateTime Created { get; }
     }
 }

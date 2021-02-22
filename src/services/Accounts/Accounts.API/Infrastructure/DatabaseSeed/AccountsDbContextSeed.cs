@@ -4,6 +4,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
+using Accounts.Domain.AggregatesModel.PaymentAggregate;
+using Accounts.Domain.SeedWork;
 using Accounts.Infrastructure.Database;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -51,17 +53,20 @@ namespace Accounts.API.Infrastructure.DatabaseSeed
             {
                 _dbContext.Database.Migrate();
 
-                AddAccountTypesIfNeeded();
+                SeedEnumeration(_dbContext.AccountTypes, AccountType.GetAll<AccountType>());
+                SeedEnumeration(_dbContext.PaymentMethods, PaymentMethod.GetAll<PaymentMethod>());
+                SeedEnumeration(_dbContext.PaymentTypes, PaymentType.GetAll<PaymentType>());
 
                 await _dbContext.SaveChangesAsync();
             }
         }
 
-        private void AddAccountTypesIfNeeded()
+        private void SeedEnumeration<TEnumeration>(DbSet<TEnumeration> values, IEnumerable<TEnumeration> valuesToSeed)
+            where TEnumeration : Enumeration
         {
-            if (!_dbContext.AccountTypes.Any())
+            if (!values.Any())
             {
-                _dbContext.AccountTypes.AddRange(AccountType.GetPredefinedAccountTypes());
+                values.AddRange(valuesToSeed);
             }
         }
     }

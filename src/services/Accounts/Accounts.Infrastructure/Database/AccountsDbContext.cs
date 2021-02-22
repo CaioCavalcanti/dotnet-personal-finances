@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
+using Accounts.Domain.AggregatesModel.PaymentAggregate;
 using Accounts.Domain.SeedWork;
 using Accounts.Infrastructure.Database.EntityConfiguration;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +16,9 @@ namespace Accounts.Infrastructure.Database
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<AccountType> AccountTypes { get; set; }
+        public DbSet<Payment> Payments { get; set; }
+        public DbSet<PaymentMethod> PaymentMethods { get; set; }
+        public DbSet<PaymentType> PaymentTypes { get; set; }
 
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
         {
@@ -25,8 +29,12 @@ namespace Accounts.Infrastructure.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new AccountEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new AccountTypeEntityTypeConfiguration());
+            modelBuilder
+                .ApplyConfiguration(new AccountEntityTypeConfiguration())
+                .ApplyEnumerationConfiguration<AccountType>()
+                .ApplyConfiguration(new PaymentEntityTypeConfiguration())
+                .ApplyEnumerationConfiguration<PaymentMethod>()
+                .ApplyEnumerationConfiguration<PaymentType>();
         }
     }
 }
