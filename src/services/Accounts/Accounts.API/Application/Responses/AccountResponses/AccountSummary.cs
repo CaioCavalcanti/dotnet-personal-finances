@@ -1,6 +1,6 @@
-namespace Accounts.API.Application.Responses
+namespace Accounts.API.Application.Responses.AccountResponses
 {
-    public class AccountSummaryResponse
+    public record AccountSummaryResponse
     {
         public int Id { get; init; }
         public string Name { get; init; }

@@ -1,8 +1,8 @@
 using Xunit;
 using AutoMapper;
-using Accounts.API.Application.Responses;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using FluentAssertions;
+using Accounts.API.Application.Responses.AccountResponses;
 
 namespace Accounts.API.UnitTests.Application.Responses
 {

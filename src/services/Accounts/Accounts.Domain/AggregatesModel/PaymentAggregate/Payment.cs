@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using Accounts.Domain.SeedWork;
 
 namespace Accounts.Domain.AggregatesModel.PaymentAggregate

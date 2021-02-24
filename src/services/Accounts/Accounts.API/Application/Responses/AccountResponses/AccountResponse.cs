@@ -1,6 +1,6 @@
 using System;
 
-namespace Accounts.API.Application.Responses
+namespace Accounts.API.Application.Responses.AccountResponses
 {
     public record AccountResponse
     {

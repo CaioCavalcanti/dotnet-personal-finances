@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using Accounts.API.Application.Responses;
+using Accounts.API.Application.Responses.AccountResponses;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using AutoMapper;
 using MediatR;

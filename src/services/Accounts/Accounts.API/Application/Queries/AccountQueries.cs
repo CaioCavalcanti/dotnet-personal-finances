@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Accounts.API.Application.Responses;
+using Accounts.API.Application.Responses.AccountResponses;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using AutoMapper;
 
@@ -12,10 +13,10 @@ namespace Accounts.API.Application.Queries
         private readonly IAccountRepository _repository;
         private readonly IMapper _mapper;
 
-        public AccountQueries(IAccountRepository repository, IMapper mapper)
+        public AccountQueries([NotNull] IAccountRepository repository, [NotNull] IMapper mapper)
         {
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _repository = repository;
+            _mapper = mapper;
         }
 
         public async Task<AccountResponse> GetAccountAsync(int id)

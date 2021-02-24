@@ -1,4 +1,4 @@
-using Accounts.API.Application.Responses;
+using Accounts.API.Application.Responses.AccountResponses;
 using MediatR;
 
 namespace Accounts.API.Application.Requests

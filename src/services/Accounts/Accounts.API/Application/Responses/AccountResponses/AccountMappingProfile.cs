@@ -1,7 +1,7 @@
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using AutoMapper;
 
-namespace Accounts.API.Application.Responses
+namespace Accounts.API.Application.Responses.AccountResponses
 {
     public class AccountMappingProfile : Profile
     {

@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Accounts.API.Application.Queries;
 using Accounts.API.Application.Requests;
 using Accounts.API.Application.Responses;
+using Accounts.API.Application.Responses.AccountResponses;
 using Accounts.Domain.AggregatesModel.AccountAggregate;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Accounts.API.Controllers
 {
@@ -17,14 +18,12 @@ namespace Accounts.API.Controllers
     public class AccountsController : BaseApiController
     {
         private readonly IMediator _mediator;
-        private readonly IAccountQueries _accountQueries;
-        private readonly ILogger<AccountsController> _logger;
+        private readonly IAccountQueries _queries;
 
-        public AccountsController(IMediator mediator, IAccountQueries accountQueries, ILogger<AccountsController> logger)
+        public AccountsController([NotNull] IMediator mediator, [NotNull] IAccountQueries queries)
         {
-            _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
-            _accountQueries = accountQueries ?? throw new ArgumentNullException(nameof(accountQueries));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _mediator = mediator;
+            _queries = queries;
         }
 
         /// <summary>
@@ -37,7 +36,8 @@ namespace Accounts.API.Controllers
         // TODO: add global  response on swagger, so it doesn't need to be repeated
         public async Task<IActionResult> Get()
         {
-            IEnumerable<AccountSummaryResponse> accounts = await _accountQueries.GetAccountsAsync();
+            // TODO: enable pagination and filter
+            IEnumerable<AccountSummaryResponse> accounts = await _queries.GetAccountsAsync();
             return Ok(accounts);
         }
 
@@ -50,9 +50,9 @@ namespace Accounts.API.Controllers
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(NotFoundResponse<Account>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAccount(int id)
         {
-            AccountResponse account = await _accountQueries.GetAccountAsync(id);
+            AccountResponse account = await _queries.GetAccountAsync(id);
 
             // TODO: should this be an exception handled by the filter?
             if (account is null)
@@ -74,19 +74,23 @@ namespace Accounts.API.Controllers
         public async Task<IActionResult> Post([FromBody] CreateAccountRequest createAccountRequest)
         {
             AccountResponse account = await _mediator.Send(createAccountRequest);
-            return CreatedAtAction(nameof(Get), account);
+            return CreatedAtAction(nameof(GetAccount), account);
         }
 
         // PUT: api/Accounts/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            // TODO
+            throw new NotImplementedException();
         }
 
         // DELETE: api/Accounts/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            // TODO
+            throw new NotImplementedException();
         }
     }
 }
