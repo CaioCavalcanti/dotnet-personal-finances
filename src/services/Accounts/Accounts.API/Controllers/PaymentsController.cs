@@ -1,9 +1,8 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using Accounts.API.Application.Queries;
+using Accounts.API.Application.Requests;
 using Accounts.API.Application.Responses;
 using Accounts.API.Application.Responses.PaymentResponses;
 using Accounts.Domain.AggregatesModel.PaymentAggregate;
@@ -13,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Accounts.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/payments")]
     [ApiController]
     public class PaymentsController : BaseApiController
     {
@@ -60,10 +59,19 @@ namespace Accounts.API.Controllers
             return Ok(payment);
         }
 
-        // POST: api/Payments
+        /// <summary>
+        /// Creates a payment.
+        /// </summary>
+        /// <param name="request">The payment to create.</param>
+        /// <returns>The created payment.</returns>
         [HttpPost]
-        public void Post([FromBody] string value)
+        [ProducesResponseType(typeof(PaymentResponse), StatusCodes.Status201Created)]
+        [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Post([FromBody] CreatePaymentRequest request)
         {
+            PaymentResponse response = await _mediator.Send(request);
+            return CreatedAtAction(nameof(GetPayment), new { id = response.Id }, response);
         }
 
         // PUT: api/Payments/5
