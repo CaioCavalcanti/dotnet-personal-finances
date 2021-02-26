@@ -2,14 +2,14 @@ using System;
 
 namespace Accounts.API.Application.Responses.AccountResponses
 {
-    public record AccountResponse
+    public class AccountResponse
     {
-        public int Id { get; init; }
-        public string Name { get; init; }
-        public string Type { get; init; }
-        public string Currency { get; init; }
-        public double InitialBalance { get; init; }
-        public double Balance { get; init; }
-        public DateTime Created { get; init; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string Currency { get; set; }
+        public double InitialBalance { get; set; }
+        public double Balance { get; set; }
+        public DateTime Created { get; set; }
     }
 }

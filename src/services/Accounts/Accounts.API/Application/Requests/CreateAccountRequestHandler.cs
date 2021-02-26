@@ -21,9 +21,11 @@ namespace Accounts.API.Application.Requests
 
         public async Task<AccountResponse> Handle(CreateAccountRequest request, CancellationToken cancellationToken)
         {
+            AccountType accountType = AccountType.FromDisplayName<AccountType>(request.Type);
+
             var account = new Account(
                 request.Name,
-                AccountType.FromDisplayName<AccountType>(request.Type).Id,
+                accountType.Id,
                 request.Currency,
                 request.InitialBalance
             );
@@ -32,7 +34,10 @@ namespace Accounts.API.Application.Requests
             
             await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-            return _mapper.Map<AccountResponse>(account);
+            return _mapper.Map<AccountResponse>(account, options => 
+                options.AfterMap((src, dest) => {
+                    dest.Type = accountType.Name;
+                }));
         }
     }
 }

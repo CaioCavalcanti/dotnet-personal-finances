@@ -66,15 +66,16 @@ namespace Accounts.API.Controllers
         /// <summary>
         /// Creates an account.
         /// </summary>
-        /// <param name="createAccountRequest">The created account.</param>
+        /// <param name="request">The account to create.</param>
+        /// <returns>Details of the created account.</returns>
         [HttpPost]
         [ProducesResponseType(typeof(AccountResponse), StatusCodes.Status201Created)]
         [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ErrorResponse), StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] CreateAccountRequest createAccountRequest)
+        public async Task<IActionResult> Post([FromBody] CreateAccountRequest request)
         {
-            AccountResponse account = await _mediator.Send(createAccountRequest);
-            return CreatedAtAction(nameof(GetAccount), account);
+            AccountResponse response = await _mediator.Send(request);
+            return CreatedAtAction(nameof(GetAccount), new { id = response.Id }, response);
         }
 
         // PUT: api/Accounts/5
