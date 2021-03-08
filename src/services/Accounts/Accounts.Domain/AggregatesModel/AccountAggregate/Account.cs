@@ -1,4 +1,5 @@
 using System;
+using Accounts.Domain.Events;
 using Accounts.Domain.SeedWork;
 
 namespace Accounts.Domain.AggregatesModel.AccountAggregate
@@ -17,6 +18,8 @@ namespace Accounts.Domain.AggregatesModel.AccountAggregate
             InitialBalance = initialBalance;
             Balance = InitialBalance;
             Created = DateTime.UtcNow;
+            
+            AddDomainEvent(new AccountCreatedDomainEvent(name, typeId, currency, initialBalance, initialBalance, Created));
         }
 
         public string Name { get; }

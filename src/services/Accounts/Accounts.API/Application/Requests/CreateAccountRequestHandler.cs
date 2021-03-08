@@ -32,7 +32,7 @@ namespace Accounts.API.Application.Requests
 
             _repository.Add(account);
             
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             return _mapper.Map<AccountResponse>(account, options => 
                 options.AfterMap((src, dest) => {

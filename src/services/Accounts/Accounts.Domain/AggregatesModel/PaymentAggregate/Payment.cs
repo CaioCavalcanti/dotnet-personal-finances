@@ -1,4 +1,5 @@
 using System;
+using Accounts.Domain.Events;
 using Accounts.Domain.SeedWork;
 
 namespace Accounts.Domain.AggregatesModel.PaymentAggregate
@@ -21,6 +22,8 @@ namespace Accounts.Domain.AggregatesModel.PaymentAggregate
             Value = value;
             Description = description;
             Created = DateTime.UtcNow;
+
+            AddDomainEvent(new PaymentCreatedDomainEvent(_accountId, date, _paymentTypeId, _paymentMethodId, counterparty, value, description, Created));
         }
 
         public DateTime Date { get; set; }

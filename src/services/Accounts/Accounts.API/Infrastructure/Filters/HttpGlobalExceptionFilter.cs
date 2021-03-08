@@ -10,8 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using FluentValidation.Results;
-using System.Collections.Generic;
 
 namespace Accounts.API.Infrastructure.Filters
 {

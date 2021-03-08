@@ -40,7 +40,7 @@ namespace Accounts.API.Application.Requests
 
             _repository.Add(payment);
             
-            await _repository.UnitOfWork.SaveChangesAsync(cancellationToken);
+            await _repository.UnitOfWork.SaveEntitiesAsync(cancellationToken);
 
             return _mapper.Map<PaymentResponse>(payment, options => 
                 options.AfterMap((src, dest) => {
